@@ -9,3 +9,10 @@ pip install xml-python
 ```
 
 For more information, visit https://docs.python.org/3/library/xml.etree.elementtree.html.
+
+This script in principle reads a UPF pseudo-potential file in xml format. Hence, one needs to convert the file
+into an xml file. In Quantum Espresso distribution, this can be achieved by running, 
+
+```
+upfconv.x -x file.upf
+```
