@@ -12,7 +12,7 @@ def PlotData(x,y,xlabel='',ylabel='',title=''):
     
     if ydim == 1:
         ax.plot(x,y)
-    elif ydim > 1:
+    elif ydim == 2:
         for i in range(y.shape[1]):
             ax.plot(x,y[:,i])
     
