@@ -137,7 +137,7 @@ class parse(object):
 # -----------------------------------------------------------------
 def main(xml_file,item):
     # Parse xml file
-    pp = readxml(xml_file)
+    pp = parse(xml_file)
 
     # Save the data to a file
     file_out = item + '.dat'
