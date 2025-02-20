@@ -1,6 +1,6 @@
 import sys
 sys.path.append('../')
-from ReadPseudoXml import readxml
+from ReadPseudoXml import parse
 import numpy as np
 import matplotlib.pyplot as plt
 import xml.etree.ElementTree as ET
@@ -28,9 +28,7 @@ def PlotData(x,y,xlabel='',ylabel='',title=''):
     plt.show()
 #================================================================
 def main(xml_file):
-    tree = ET.parse(xml_file)
-    root = tree.getroot()
-    pp = readxml(root)
+    pp = parse(xml_file)
     
     # List of possible items:
     # ---------------------------------------------------------------

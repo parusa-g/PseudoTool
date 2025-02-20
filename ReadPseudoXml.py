@@ -2,8 +2,12 @@ import sys
 import numpy as np
 import xml.etree.ElementTree as ET
 
-class readxml(object):
-    def __init__(self,root):
+class parse(object):
+    def __init__(self,xml_file):
+        
+        tree = ET.parse(xml_file)
+        root = tree.getroot()
+        
         self.root = root
         self.keys = self.get_keys()
         self.labels = self.get_labels()
@@ -111,9 +115,7 @@ class readxml(object):
 # -----------------------------------------------------------------
 def main(xml_file,item):
     # Parse xml file
-    tree = ET.parse(xml_file)
-    root = tree.getroot()
-    pp = readxml(root)
+    pp = readxml(xml_file)
 
     # Save the data to a file
     file_out = item + '.dat'
