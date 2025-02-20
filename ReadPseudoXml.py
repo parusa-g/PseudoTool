@@ -11,6 +11,8 @@ class parse(object):
         self.root = root
         self.keys = self.get_keys()
         self.labels = self.get_labels()
+        self.llpswfc = self.get_ll_pswfc()
+        self.llbeta = self.get_ll_beta()
 
     def get_keys(self):
         keys = {}
@@ -28,6 +30,26 @@ class parse(object):
             lbl[item.tag] = item.text
 
         return lbl
+    
+    def get_ll_pswfc(self):
+        ll = []
+        ii = self.keys['pp_pswfc']
+        nwf = int(self.labels['number_of_wfc'])
+        for i in range(nwf):
+            l = self.root[ii][i].attrib['l']
+            ll.append(int(l))
+        
+        return ll
+    
+    def get_ll_beta(self):
+        ll = []
+        ii = self.keys['pp_nonlocal']
+        nproj = int(self.labels['number_of_proj'])
+        for i in range(nproj):
+            l = self.root[ii][i].attrib['angular_momentum']
+            ll.append(int(l))
+            
+        return ll
     
     def get_data(self,item_name):
         
