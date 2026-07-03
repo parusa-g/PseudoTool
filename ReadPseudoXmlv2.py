@@ -1,19 +1,7 @@
 import sys
-import re
 import numpy as np
 import xml.etree.ElementTree as ET
-#===========================================================
-_missing_exp = re.compile(
-    r'^([+-]?\d*\.?\d+(?:[EeDd][+-]?\d+)?)([+-]\d{3})$'
-)
-#===========================================================
-def parse_float(s):
-    s = s.replace("D", "E").replace("d", "E")
-    m = _missing_exp.match(s)
-    if m and "E" not in s and "e" not in s:
-        s = m.group(1) + "E" + m.group(2)
-    return np.float128(s)
-#===========================================================
+
 class parse(object):
     def __init__(self,xml_file):
         
@@ -69,24 +57,22 @@ class parse(object):
             ii = self.keys['pp_mesh']
             sz = int(self.labels['mesh_size'])
 
-            raw = self.root[ii][0].text.split()
-            tmp = [parse_float(s) for s in raw]
-            tmp = np.array(tmp)
+            raw = self.root[ii][0].text
+            tmp = np.fromstring(raw, sep=" ")
             
         elif item_name == 'pp_rab':
             ii = self.keys['pp_mesh']
             sz = int(self.labels['mesh_size'])
             
-            raw = self.root[ii][1].text.split()
-            tmp = [parse_float(s) for s in raw]
-            tmp = np.array(tmp)
+            raw = self.root[ii][1].text
+            tmp = np.fromstring(raw, sep=" ")
             
         elif item_name == 'pp_dij':
             nproj = int(self.labels['number_of_proj'])
             ii = self.keys['pp_nonlocal']
-            raw = self.root[ii][-1].text.split()
-            tmp = [parse_float(s) for s in raw]
-            tmp = 0.5 * np.array(tmp).reshape((nproj,nproj))
+            raw = self.root[ii][-1].text
+            tmp = np.fromstring(raw, sep=" ")
+            tmp = 0.5 * tmp.reshape((nproj,nproj))
             
         elif item_name == 'pp_beta':
             ii = self.keys['pp_nonlocal']
@@ -94,9 +80,9 @@ class parse(object):
             nproj = int(self.labels['number_of_proj'])
             tmp = np.zeros((size,nproj))
             for i in range(nproj):
-                raw = self.root[ii][i].text.split()
-                dat = [parse_float(s) for s in raw]
-                tmp[:,i] = np.array(dat)
+                raw = self.root[ii][i].text
+                dat = np.fromstring(raw, sep=" ")
+                tmp[:,i] = dat
                 
         elif item_name == 'pp_pswfc':
             ii = self.keys[item_name]
@@ -104,14 +90,13 @@ class parse(object):
             nwf = int(self.labels['number_of_wfc'])
             tmp = np.zeros((size,nwf))
             for i in range(nwf):
-                raw = self.root[ii][i].text.split()
-                dat = [parse_float(s) for s in raw]
-                tmp[:,i] = np.array(dat)
+                raw = self.root[ii][i].text
+                dat = np.fromstring(raw, sep=" ")
+                tmp[:,i] = dat
         else:
             ii = self.keys[item_name]
-            raw = self.root[ii].text.split()
-            tmp = [parse_float(s) for s in raw]
-            tmp = np.array(tmp)
+            raw = self.root[ii].text
+            tmp = np.fromstring(raw, sep=" ")
 
         # Check dimension 
         if item_name != 'pp_dij':
