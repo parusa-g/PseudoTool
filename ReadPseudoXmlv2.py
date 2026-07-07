@@ -18,16 +18,15 @@ class parse(object):
         keys = {}
         # Get keys from every xml data's child
         for i,item in enumerate(self.root):
-            keys[item.tag] = i
+            keys[item.tag.lower()] = i
 
         return keys
         
     def get_labels(self):
         # Get the labels from PP header
         k = self.keys['pp_header']
-        lbl = {}
-        for i,item in enumerate(self.root[k]):
-            lbl[item.tag] = item.text
+        header_info = self.root[k].attrib
+        lbl = dict((k.lower(), v) for k, v in header_info.items())
 
         return lbl
     
